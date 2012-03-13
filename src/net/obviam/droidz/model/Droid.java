@@ -1,5 +1,6 @@
 package net.obviam.droidz.model;
 
+import net.obviam.droidz.model.components.Speed;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -9,11 +10,13 @@ public class Droid {
 	private int x;
 	private int y;
 	private boolean touched;
+	private Speed speed = new Speed();
 
 	public Droid(Bitmap bitmap, int x, int y) {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
+		
 	}
 
 	public Bitmap getBitmap() {
@@ -47,6 +50,10 @@ public class Droid {
 	public void setTouched(boolean touched) {
 		this.touched = touched;
 	}
+	
+	public Speed getSpeed(){
+		return speed;
+	}
 
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2),
@@ -64,6 +71,13 @@ public class Droid {
 			}
 		} else {
 			setTouched(false);
+		}
+	}
+	
+	public void update(){
+		if(!touched){
+			x += (speed.getXv() * speed.getxDirection());
+			y += (speed.getYv() * speed.getyDirection());
 		}
 	}
 }

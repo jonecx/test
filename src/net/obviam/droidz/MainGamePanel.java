@@ -1,6 +1,7 @@
 package net.obviam.droidz;
 
 import net.obviam.droidz.model.Droid;
+import net.obviam.droidz.model.components.Speed;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -28,13 +29,13 @@ public class MainGamePanel extends SurfaceView implements
 		setFocusable(true);
 	}
 
-	@Override
+	//@Override
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	//@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		thread.setRunning(true);
@@ -42,7 +43,7 @@ public class MainGamePanel extends SurfaceView implements
 
 	}
 
-	@Override
+	//@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		boolean retry = true;
@@ -56,6 +57,28 @@ public class MainGamePanel extends SurfaceView implements
 		}
 
 	}// surfaceDestroyed
+	
+	
+	public void update(){
+		//check collision with the right wall if heading fright
+		if (droid.getSpeed().getxDirection() == Speed.DIRECTION_RIGHT && droid.getX() + droid.getBitmap().getWidth()/ 2 >= getWidth()){
+			droid.getSpeed().toggleXDirection();
+		}
+		//check collision with left wall if heading left
+		if (droid.getSpeed().getxDirection() == Speed.DIRECTION_LEFT && droid.getX() - droid.getBitmap().getWidth()/2 <= 0){
+			droid.getSpeed().toggleXDirection();
+		}
+		//check collision with bottom wall if heading down
+		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_DOWN && droid.getY() + droid.getBitmap().getHeight()/2 >= getHeight()){
+			droid.getSpeed().toggleYDirection();
+		}
+		//check collision with top wall if heading up
+		if(droid.getSpeed().getyDirection() == Speed.DIRECTION_UP && droid.getY() - droid.getBitmap().getHeight()/2 <= getHeight()){
+			droid.getSpeed().toggleYDirection();
+		}
+		//update the lone droid
+		droid.update();
+	}
 
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {

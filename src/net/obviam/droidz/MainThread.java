@@ -32,6 +32,8 @@ public class MainThread extends Thread {
 			try {
 				canvas = this.surfaceHolder.lockCanvas();
 				synchronized (surfaceHolder) {
+					//update game state
+					this.gamePanel.update();
 					Log.d(TAG, "Game loop executed|||||||  canvas locked now");
 					this.gamePanel.onDraw(canvas);
 				}
